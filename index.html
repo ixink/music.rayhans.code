@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Discover Rayhan's music portfolio, stream tracks, watch videos, pre-save releases, and book collaborations." />
+  <meta property="og:title" content="Rayhan's Music Portfolio" />
+  <meta property="og:description" content="Explore Rayhan's latest tracks, videos, tour dates, and merchandise." />
+  <meta property="og:image" content="/path/to/your-hero-image.jpg" />
+  <title>Rayhan's Music Portfolio</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #000000;
+      color: #ffffff;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Hero Section */
+    .hero {
+      position: relative;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background: url('/path/to/your-hero-image.jpg') no-repeat center center/cover;
+      background-attachment: fixed;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      z-index: 1;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      animation: fadeIn 1.5s ease-in-out;
+    }
+
+    .hero h1 {
+      font-size: 4.5rem;
+      color: #ffffff;
+      margin-bottom: 20px;
+      font-weight: 700;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .hero p {
+      font-size: 1.6rem;
+      color: #ffffff;
+      margin-bottom: 20px;
+      font-weight: 300;
+    }
+
+    .hero .social-cta {
+      font-size: 1rem;
+      color: #ffffff;
+      margin-top: 10px;
+    }
+
+    .hero .social-cta a {
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: 500;
+      margin: 0 5px;
+    }
+
+    .hero .social-cta a:hover {
+      text-decoration: underline;
+    }
+
+    .cta-button {
+      display: inline-block;
+      padding: 15px 40px;
+      background: #ffffff;
+      color: #000000;
+      font-weight: 600;
+      text-decoration: none;
+      border-radius: 50px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .cta-button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+    }
+
+    /* Waveform Animation */
+    .waveform {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 120px;
+      z-index: 2;
+    }
+
+    .waveform svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .waveform path {
+      fill: none;
+      stroke: #ffffff;
+      stroke-width: 3;
+      animation: wave 3s infinite ease-in-out;
+    }
+
+    @keyframes wave {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+
+    /* Music Section */
+    .music-section {
+      max-width: 1200px;
+      margin: 50px auto;
+      padding: 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 40px;
+    }
+
+    .music-card {
+      background: #000000;
+      border-radius: 15px;
+      padding: 25px;
+      position: relative;
+      overflow: hidden;
+      animation: slideIn 0.5s ease-out;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .music-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .music-card h3 {
+      font-size: 1.8rem;
+      color: #ffffff;
+      margin-bottom: 15px;
+      font-weight: 600;
+    }
+
+    .music-card .iframe-container {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16/9;
+    }
+
+    .music-card iframe {
+      width: 100%;
+      height: 100%;
+      border-radius: 10px;
+      border: none;
+    }
+
+    .music-card .loader {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border: 5px solid #ffffff;
+      border-top: 5px solid #000000;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+      display: none;
+    }
+
+    .music-card .fallback {
+      display: none;
+      text-align: center;
+      margin-top: 15px;
+      font-size: 0.9rem;
+      color: #ffffff;
+    }
+
+    .music-card .fallback a {
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .music-card .fallback a:hover {
+      text-decoration: underline;
+    }
+
+    .music-card p {
+      margin-top: 15px;
+    }
+
+    .music-card a {
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: 500;
+      margin-right: 12px;
+    }
+
+    .music-card a:hover {
+      text-decoration: underline;
+    }
+
+    /* Pre-Save Section */
+    .presave-section {
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 30px;
+      background: #000000;
+      border-radius: 15px;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    .presave-section h2 {
+      font-size: 2rem;
+      color: #ffffff;
+      margin-bottom: 20px;
+      font-weight: 600;
+    }
+
+    .presave-section p {
+      color: #ffffff;
+      margin-bottom: 20px;
+    }
+
+    .presave-section a {
+      display: inline-block;
+      padding: 12px 30px;
+      background: #ffffff;
+      color: #000000;
+      text-decoration: none;
+      border-radius: 50px;
+      font-weight: 600;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .presave-section a:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+    }
+
+    /* Tour Dates Section */
+    .tour-section {
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 30px;
+      background: #000000;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    .tour-section h2 {
+      font-size: 2rem;
+      color: #ffffff;
+      text-align: center;
+      margin-bottom: 20px;
+      font-weight: 600;
+    }
+
+    .tour-list {
+      list-style: none;
+      display: grid;
+      gap: 15px;
+    }
+
+    .tour-list li {
+      display: flex;
+      justify-content: space-between;
+      padding: 15px;
+      background: #111111;
+      border-radius: 8px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .tour-list li:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+    }
+
+    .tour-list span {
+      color: #ffffff;
+    }
+
+    .tour-list a {
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .tour-list a:hover {
+      text-decoration: underline;
+    }
+
+    /* Merchandise Section */
+    .merch-section {
+      max-width: 1200px;
+      margin: 50px auto;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .merch-section h2 {
+      font-size: 2rem;
+      color: #ffffff;
+      margin-bottom: 20px;
+      font-weight: 600;
+    }
+
+    .merch-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+    }
+
+    .merch-item {
+      background: #000000;
+      border-radius: 10px;
+      padding: 15px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .merch-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+    }
+
+    .merch-item img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      filter: grayscale(100%);
+    }
+
+    .merch-item p {
+      color: #ffffff;
+      font-size: 1rem;
+    }
+
+    .merch-item a {
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .merch-item a:hover {
+      text-decoration: underline;
+    }
+
+    /* Booking Section */
+    .booking-section {
+      max-width: 600px;
+      margin: 50px auto;
+      background: #000000;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    .booking-section h2 {
+      font-size: 2rem;
+      color: #ffffff;
+      text-align: center;
+      margin-bottom: 20px;
+      font-weight: 600;
+    }
+
+    .booking-form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .booking-form input,
+    .booking-form textarea {
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      background: #111111;
+      color: #ffffff;
+      font-size: 1rem;
+      transition: box-shadow 0.3s ease;
+    }
+
+    .booking-form input:focus,
+    .booking-form textarea:focus {
+      outline: none;
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
+    }
+
+    .booking-form button {
+      padding: 12px;
+      background: #ffffff;
+      color: #000000;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .booking-form button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+    }
+
+    /* Newsletter Section */
+    .newsletter-section {
+      max-width: 600px;
+      margin: 50px auto;
+      text-align: center;
+      padding: 30px;
+      background: #000000;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    .newsletter-section h2 {
+      font-size: 2rem;
+      color: #ffffff;
+      margin-bottom: 20px;
+      font-weight: 600;
+    }
+
+    .newsletter-form {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .newsletter-form input {
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      background: #111111;
+      color: #ffffff;
+      width: 70%;
+      transition: box-shadow 0.3s ease;
+    }
+
+    .newsletter-form input:focus {
+      outline: none;
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
+    }
+
+    .newsletter-form button {
+      padding: 12px 20px;
+      background: #ffffff;
+      color: #000000;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .newsletter-form button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+    }
+
+    /* Social Feed Section */
+    .social-feed-section {
+      max-width: 1200px;
+      margin: 50px auto;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .social-feed-section h2 {
+      font-size: 2rem;
+      color: #ffffff;
+      margin-bottom: 20px;
+      font-weight: 600;
+    }
+
+    .social-feed {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+    }
+
+    .social-post {
+      background: #000000;
+      border-radius: 10px;
+      padding: 15px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .social-post:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+    }
+
+    .social-post img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      filter: grayscale(100%);
+    }
+
+    .social-post p {
+      color: #ffffff;
+      font-size: 0.9rem;
+    }
+
+    .social-post a {
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .social-post a:hover {
+      text-decoration: underline;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 30px 0;
+      margin-top: 50px;
+      border-top: 1px solid #111111;
+    }
+
+    .social-links a {
+      color: #ffffff;
+      font-size: 2rem;
+      margin: 0 15px;
+      transition: transform 0.3s ease;
+    }
+
+    .social-links a:hover {
+      transform: scale(1.2);
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(-20px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 3rem;
+      }
+
+      .hero p {
+        font-size: 1.2rem;
+      }
+
+      .music-section {
+        grid-template-columns: 1fr;
+      }
+
+      .newsletter-form {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .newsletter-form input {
+        width: 100%;
+      }
+
+      .music-card .iframe-container {
+        aspect-ratio: 16/9;
+      }
+
+      .tour-list li {
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1><i class="fas fa-music"></i> Rayhan's Music Portfolio</h1>
+      <p>Immerse yourself in the rhythm and soul of my latest tracks, videos, and live performances.</p>
+      <div class="social-cta">
+        Follow me on <a href="https://x.com/" target="_blank">X</a> and <a href="https://instagram.com/" target="_blank">Instagram</a> for updates!
+      </div>
+      <a href="#music" class="cta-button">Explore My Music</a>
+    </div>
+    <div class="waveform">
+      <svg viewBox="0 0 1200 100" preserveAspectRatio="none">
+        <path d="M0,50 C150,80 300,20 450,60 C600,100 750,40 900,70 C1050,90 1200,50 1200,50" />
+        <path d="M0,50 C150,70 300,30 450,80 C600,90 750,50 900,60 C1050,80 1200,50 1200,50" />
+      </svg>
+    </div>
+  </section>
+
+  <!-- Pre-Save Section -->
+  <section class="presave-section">
+    <h2>Pre-Save My Upcoming Release</h2>
+    <p>Be the first to hear my next single! Pre-save now on Spotify or Apple Music.</p>
+    <a href="https://distrokid.com/pre-save/" target="_blank">Pre-Save Now</a>
+  </section>
+
+  <!-- Music Section -->
+  <section class="music-section" id="music">
+    <div class="music-card">
+      <h3>YouTube Music</h3>
+      <div class="iframe-container">
+        <div class="loader"></div>
+        <iframe
+          src="https://www.youtube.com/embed/M7lc1UVf-VE"
+          title="YouTube Music Track"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen
+          loading="lazy"
+        ></iframe>
+      </div>
+      <div class="fallback">
+        <p>Track unavailable. <a href="https://www.youtube.com/watch?v=M7lc1UVf-VE" target="_blank">Listen on YouTube</a></p>
+      </div>
+      <p>
+        <a href="https://music.youtube.com/" target="_blank">Listen on YouTube Music</a> |
+        <a href="#" class="share-btn" data-platform="youtube">Share</a>
+      </p>
+    </div>
+
+    <div class="music-card">
+      <h3>Spotify</h3>
+      <div class="iframe-container">
+        <div class="loader"></div>
+        <iframe
+          style="border-radius:12px"
+          src="https://open.spotify.com/embed/track/3n3Ppam7vgaVa1iaRUc9Lp?utm_source=generator"
+          title="Spotify Track"
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+          loading="lazy"
+        ></iframe>
+      </div>
+      <div class="fallback">
+        <p>Track unavailable. <a href="https://open.spotify.com/track/3n3Ppam7vgaVa1iaRUc9Lp" target="_blank">Listen on Spotify</a></p>
+      </div>
+      <p>
+        <a href="https://open.spotify.com/" target="_blank">Listen on Spotify</a> |
+        <a href="#" class="share-btn" data-platform="spotify">Share</a>
+      </p>
+    </div>
+
+    <div class="music-card">
+      <h3>SoundCloud</h3>
+      <div class="iframe-container">
+        <div class="loader"></div>
+        <iframe
+          scrolling="no"
+          frameborder="no"
+          allow="autoplay"
+          src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/293&color=%23ffffff&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"
+          title="SoundCloud Track"
+        ></iframe>
+      </div>
+      <div class="fallback">
+        <p>Track unavailable. <a href="https://soundcloud.com/moby/moby-porcelain" target="_blank">Listen on SoundCloud</a></p>
+      </div>
+      <p>
+        <a href="https://soundcloud.com/" target="_blank">Listen on SoundCloud</a> |
+        <a href="#" class="share-btn" data-platform="soundcloud">Share</a>
+      </p>
+    </div>
+
+    <div class="music-card">
+      <h3>Apple Music</h3>
+      <div class="iframe-container">
+        <div class="loader"></div>
+        <iframe
+          allow="autoplay *; encrypted-media *;"
+          frameborder="0"
+          style="width:100%;max-width:660px;overflow:hidden;border-radius:10px;"
+          sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+          src="https://embed.music.apple.com/us/album/porcelain/1440859040?i=1440859357"
+          title="Apple Music Track"
+        ></iframe>
+      </div>
+      <div class="fallback">
+        <p>Track unavailable. <a href="https://music.apple.com/us/album/porcelain/1440859040?i=1440859357" target="_blank">Listen on Apple Music</a></p>
+      </div>
+      <p>
+        <a href="https://music.apple.com/" target="_blank">Listen on Apple Music</a> |
+        <a href="#" class="share-btn" data-platform="apple">Share</a>
+      </p>
+    </div>
+
+    <div class="music-card">
+      <h3>Tidal</h3>
+      <div class="iframe-container">
+        <div class="loader"></div>
+        <iframe
+          src="https://embed.tidal.com/tracks/232750?layout=gridify"
+          title="Tidal Track"
+          frameborder="0"
+          allow="autoplay; encrypted-media"
+          style="width:100%;height:100%;border-radius:10px;"
+          loading="lazy"
+        ></iframe>
+      </div>
+      <div class="fallback">
+        <p>Track unavailable. <a href="https://tidal.com/browse/track/232750" target="_blank">Listen on Tidal</a></p>
+      </div>
+      <p>
+        <a href="https://tidal.com/" target="_blank">Listen on Tidal</a> |
+        <a href="#" class="share-btn" data-platform="tidal">Share</a>
+      </p>
+    </div>
+
+    <div class="music-card">
+      <h3>YouTube Video</h3>
+      <div class="iframe-container">
+        <div class="loader"></div>
+        <iframe
+          src="https://www.youtube.com/embed/M7lc1UVf-VE"
+          title="YouTube Music Video"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen
+          loading="lazy"
+        ></iframe>
+      </div>
+      <div class="fallback">
+        <p>Video unavailable. <a href="https://www.youtube.com/watch?v=M7lc1UVf-VE" target="_blank">Watch on YouTube</a></p>
+      </div>
+      <p>
+        <a href="https://youtube.com/@rayhanahmedtalkies" target="_blank">Visit My YouTube Channel</a> |
+        <a href="#" class="share-btn" data-platform="youtube">Share</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- Tour Dates Section -->
+  <section class="tour-section">
+    <h2>Upcoming Tour Dates</h2>
+    <ul class="tour-list">
+      <li>
+        <span>Jan 15, 2026 - New York, NY</span>
+        <a href="https://ticketmaster.com" target="_blank">Get Tickets</a>
+      </li>
+      <li>
+        <span>Feb 10, 2026 - Los Angeles, CA</span>
+        <a href="https://ticketmaster.com" target="_blank">Get Tickets</a>
+      </li>
+      <li>
+        <span>Mar 5, 2026 - Virtual Live Stream</span>
+        <a href="https://ticketmaster.com" target="_blank">Join Stream</a>
+      </li>
+    </ul>
+  </section>
+
+  <!-- Merchandise Section -->
+  <section class="merch-section">
+    <h2>Official Merchandise</h2>
+    <div class="merch-grid">
+      <div class="merch-item">
+        <img src="/path/to/merch-tshirt.jpg" alt="Merch T-Shirt" />
+        <p>Signature T-Shirt</p>
+        <a href="https://your-merch-store.com" target="_blank">Shop Now</a>
+      </div>
+      <div class="merch-item">
+        <img src="/path/to/merch-hoodie.jpg" alt="Merch Hoodie" />
+        <p>Exclusive Hoodie</p>
+        <a href="https://your-merch-store.com" target="_blank">Shop Now</a>
+      </div>
+      <div class="merch-item">
+        <img src="/path/to/merch-cap.jpg" alt="Merch Cap" />
+        <p>Branded Cap</p>
+        <a href="https://your-merch-store.com" target="_blank">Shop Now</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Booking Section -->
+  <section class="booking-section">
+    <h2>Book a Collaboration</h2>
+    <form class="booking-form" id="booking-form" action="https://formspree.io/f/your-form-id" method="POST">
+      <input type="text" name="name" placeholder="Your Name" required />
+      <input type="email" name="email" placeholder="Your Email" required />
+      <textarea name="message" placeholder="Tell us about your project..." rows="5" required></textarea>
+      <button type="submit">Submit Request</button>
+    </form>
+  </section>
+
+  <!-- Newsletter Section -->
+  <section class="newsletter-section">
+    <h2>Join My Music Journey</h2>
+    <p>Get updates on new releases, exclusive content, and tour dates!</p>
+    <form class="newsletter-form" id="newsletter-form" action="https://formspree.io/f/your-form-id" method="POST">
+      <input type="email" name="email" placeholder="Enter your email" required />
+      <button type="submit">Subscribe</button>
+    </form>
+  </section>
+
+  <!-- Social Feed Section -->
+  <section class="social-feed-section">
+    <h2>Connect With Me</h2>
+    <div class="social-feed">
+      <div class="social-post">
+        <img src="/path/to/social-post1.jpg" alt="Social Post 1" />
+        <p>Behind the scenes of my latest track! 🎵</p>
+        <a href="https://instagram.com/" target="_blank">View on Instagram</a>
+      </div>
+      <div class="social-post">
+        <img src="/path/to/social-post2.jpg" alt="Social Post 2" />
+        <p>Excited for the upcoming tour! 🚀</p>
+        <a href="https://x.com/" target="_blank">View on X</a>
+      </div>
+      <div class="social-post">
+        <img src="/path/to/social-post3.jpg" alt="Social Post 3" />
+        <p>New merch drop! Check it out! 👕</p>
+        <a href="https://instagram.com/" target="_blank">View on Instagram</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="social-links">
+      <a href="https://youtube.com/@rayhanahmedtalkies" target="_blank" title="YouTube"><i class="fab fa-youtube"></i></a>
+      <a href="https://open.spotify.com/" target="_blank" title="Spotify"><i class="fab fa-spotify"></i></a>
+      <a href="https://soundcloud.com/" target="_blank" title="SoundCloud"><i class="fab fa-soundcloud"></i></a>
+      <a href="https://music.apple.com/" target="_blank" title="Apple Music"><i class="fab fa-apple"></i></a>
+      <a href="https://tidal.com/" target="_blank" title="Tidal"><i class="fab fa-tidal"></i></a>
+      <a href="https://x.com/" target="_blank" title="X"><i class="fab fa-x"></i></a>
+      <a href="https://instagram.com/" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+    </div>
+    <p>&copy; 2025 Rayhan's Music Portfolio. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // Form Submission Handling
+    document.getElementById('booking-form').addEventListener('submit', function (e) {
+      const formData = new FormData(this);
+      const data = Object.fromEntries(formData);
+      alert(`Thank you, ${data.name}! Your request has been submitted. We'll contact you at ${data.email} soon.`);
+    });
+
+    document.getElementById('newsletter-form').addEventListener('submit', function (e) {
+      const formData = new FormData(this);
+      const data = Object.fromEntries(formData);
+      alert(`Thanks for subscribing, ${data.email}! You'll receive updates soon.`);
+    });
+
+    // Social Sharing
+    document.querySelectorAll('.share-btn').forEach(btn => {
+      btn.addEventListener('click', function (e) {
+        e.preventDefault();
+        const platform = this.getAttribute('data-platform');
+        const url = window.location.href;
+        let shareUrl;
+        switch (platform) {
+          case 'youtube':
+            shareUrl = `https://www.youtube.com/share?url=${encodeURIComponent(url)}`;
+            break;
+          case 'spotify':
+            shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+            break;
+          case 'soundcloud':
+            shareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=Check%20out%20Rayhan's%20music!`;
+            break;
+          case 'apple':
+            shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`;
+            break;
+          case 'tidal':
+            shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+            break;
+          default:
+            shareUrl = url;
+        }
+        window.open(shareUrl, '_blank', 'noopener,noreferrer');
+      });
+    });
+
+    // Scroll Animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.music-card, .presave-section, .tour-section, .merch-section, .booking-section, .newsletter-section, .social-feed-section').forEach(el => {
+      el.classList.add('animate');
+      observer.observe(el);
+    });
+
+    // Iframe Loading and Error Handling
+    document.querySelectorAll('.iframe-container').forEach(container => {
+      const iframe = container.querySelector('iframe');
+      const loader = container.querySelector('.loader');
+      const fallback = container.nextElementSibling;
+
+      // Show loader initially
+      loader.style.display = 'block';
+
+      // Hide loader when iframe loads
+      iframe.addEventListener('load', () => {
+        loader.style.display = 'none';
+      });
+
+      // Show fallback on error
+      iframe.addEventListener('error', () => {
+        loader.style.display = 'none';
+        if (fallback && fallback.classList.contains('fallback')) {
+          fallback.style.display = 'block';
+        }
+      });
+
+      // Fallback timeout (if iframe doesn't load within 10 seconds)
+      setTimeout(() => {
+        if (loader.style.display === 'block') {
+          loader.style.display = 'none';
+          if (fallback && fallback.classList.contains('fallback')) {
+            fallback.style.display = 'block';
+          }
+        }
+      }, 10000);
+    });
+
+    // Add visible class for animations
+    document.head.insertAdjacentHTML('beforeend', `
+      <style>
+        .animate { opacity: 0; transform: translateY(20px); transition: opacity 0.5s ease, transform 0.5s ease; }
+        .visible { opacity: 1; transform: translateY(0); }
+      </style>
+    `);
+  </script>
+</body>
+</html>
